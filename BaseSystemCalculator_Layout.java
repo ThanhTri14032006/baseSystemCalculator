@@ -213,7 +213,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
         ketQuaField_Layout_Two.setEditable(false);
         ketQuaField_Layout_Two.setFont(new Font("Arial", Font.BOLD, 19));
         ketQuaField_Layout_Two.setBackground(Color.decode(FirstColorCode));
-        ketQuaField_Layout_Two.setForeground(Color.BLACK);
+        // ketQuaField_Layout_Two.setForeground(Color.BLACK);
         panel2.add(ketQuaField_Layout_Two);
 
         BtCalculate = new JButton("Tính Toán");
@@ -376,7 +376,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
                 String print_result = Calculator_Algorithm(numOneText, firstRadix,
                         numTwoText, secondRadix, resultRadix,
                         operation);
-                // System.out.println(print_result);
+                ketQuaField_Layout_Two.setForeground(Color.BLACK);
                 ketQuaField_Layout_Two.setText(print_result);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi",
@@ -502,7 +502,6 @@ public class BaseSystemCalculator_Layout extends JFrame {
         String second_number_result = Integer.toString(Dec_Second_Number, 10);
         String result;
         int Addition, Subtraction, Multiplication;
-        double Division;
         switch (operation) {
             case 0:// +
                 Addition = Integer.parseInt(first_number_result) + Integer.parseInt(second_number_result);
@@ -518,17 +517,20 @@ public class BaseSystemCalculator_Layout extends JFrame {
                 return result;
             case 3:// :
                 if (Dec_Second_Number == 0) {
-                    return "Không thể chia cho 0";
+                    JOptionPane.showMessageDialog(null, "Không thể chia cho 0");
+                    return null;
                 }
                 if (Dec_First_Number % Dec_Second_Number != 0) {
-                    return "Số thứ nhất không chia hết cho số thứ hai";
+                    JOptionPane.showMessageDialog(null, "Số thứ nhất không chia hết cho số thứ hai");
+                    return null;
                 } else {
                     int integer_division = Dec_First_Number / Dec_Second_Number;
                     result = Integer.toString(integer_division, final_base_number);
                     return result;
                 }
             default:
-                return "Phép toán không hợp lệ";
+                JOptionPane.showMessageDialog(null, "Phép toán không hợp lệ");
+                return null;
         }
     }
 }
