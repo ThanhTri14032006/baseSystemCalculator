@@ -105,6 +105,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
         Target_Radix_System.setBackground(Color.decode(FirstColorCode));
         panel1.add(Target_Radix_System);
 
+        ketQuaField_Layout_One = new JTextField();
         ketQuaField_Layout_One = createPlaceholderTextField("SỐ SAU KHI ĐÃ CHUYỂN");
         ketQuaField_Layout_One.setBounds(20, 210, 320, 40);
         ketQuaField_Layout_One.setEditable(false);
@@ -317,7 +318,6 @@ public class BaseSystemCalculator_Layout extends JFrame {
             }
 
             try {
-                int numConvert = Integer.parseInt(numConvertText);
                 int CurrentBaseSystem = Integer.parseInt(Current_Base_System_Text);
                 int TargetRadixSystem = Integer.parseInt(Target_Radix_System_Text);
 
@@ -328,7 +328,9 @@ public class BaseSystemCalculator_Layout extends JFrame {
                     return;
                 }
 
-                // ketQuaField_Layout_One.setText(result);
+                ketQuaField_Layout_One
+                        .setText((Convert_Number(numConvertText, CurrentBaseSystem, TargetRadixSystem)).toUpperCase());
+                ketQuaField_Layout_One.setForeground(Color.black);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi",
                         JOptionPane.ERROR_MESSAGE);
@@ -378,7 +380,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
                         numTwoText, secondRadix, resultRadix,
                         operation);
                 ketQuaField_Layout_Two.setForeground(Color.BLACK);
-                ketQuaField_Layout_Two.setText(print_result);
+                ketQuaField_Layout_Two.setText(print_result.toUpperCase());
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi",
                         JOptionPane.ERROR_MESSAGE);
@@ -449,6 +451,12 @@ public class BaseSystemCalculator_Layout extends JFrame {
     public static void main(String[] args) {
         BaseSystemCalculator_Layout display = new BaseSystemCalculator_Layout("Máy Tinh Hệ Cơ Số");
         display.showWindow();
+    }
+
+    private String Convert_Number(String firstNumber, int fromBase, int toBase) {
+
+        int DecNum = Integer.parseInt(firstNumber, fromBase);
+        return Integer.toString(DecNum, toBase);
     }
 
     // Hiển thị chử trong JTexx
