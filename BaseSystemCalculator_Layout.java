@@ -25,7 +25,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
         this.setTitle(title);
         addControls();
         addEvents();
-        ImageIcon icon = new ImageIcon("Data/Logo-icon.png");  // Đảm bảo đường dẫn chính xác
+        ImageIcon icon = new ImageIcon("Data/Logo-icon.png"); // Đảm bảo đường dẫn chính xác
         Image image = icon.getImage();
 
         setIconImage(image);
@@ -180,7 +180,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
         First_Radix_System.setBackground(Color.decode(FirstColorCode));
         panel2.add(First_Radix_System);
 
-        Operation = new JComboBox<>(new String[]{"+", "-", "*", "/"});
+        Operation = new JComboBox<>(new String[] { "+", "-", "*", "/" });
         createLabel(panel2, "CHỌN PHÉP TÍNH", 210, 150);
         Operation.setBounds(130, 150, 70, 30);
         Operation.setBackground(Color.decode(FirstColorCode));
@@ -207,11 +207,13 @@ public class BaseSystemCalculator_Layout extends JFrame {
         Result_Radix_System.setBackground(Color.decode(FirstColorCode));
         panel2.add(Result_Radix_System);
 
+        ketQuaField_Layout_Two = new JTextField();
         ketQuaField_Layout_Two = createPlaceholderTextField("SỐ ĐÃ THỰC HIỆN PHÉP TÍNH");
         ketQuaField_Layout_Two.setBounds(130, 340, 320, 40);
         ketQuaField_Layout_Two.setEditable(false);
         ketQuaField_Layout_Two.setFont(new Font("Arial", Font.BOLD, 19));
         ketQuaField_Layout_Two.setBackground(Color.decode(FirstColorCode));
+        ketQuaField_Layout_Two.setForeground(Color.BLACK);
         panel2.add(ketQuaField_Layout_Two);
 
         BtCalculate = new JButton("Tính Toán");
@@ -318,14 +320,17 @@ public class BaseSystemCalculator_Layout extends JFrame {
                 int CurrentBaseSystem = Integer.parseInt(Current_Base_System_Text);
                 int TargetRadixSystem = Integer.parseInt(Target_Radix_System_Text);
 
-                if (CurrentBaseSystem < 2 || CurrentBaseSystem > 36 || TargetRadixSystem < 2 || TargetRadixSystem > 36) {
-                    JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho hệ cơ số (từ 2 đến 36).", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                if (CurrentBaseSystem < 2 || CurrentBaseSystem > 36 || TargetRadixSystem < 2
+                        || TargetRadixSystem > 36) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho hệ cơ số (từ 2 đến 36).",
+                            "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-//                ketQuaField_Layout_One.setText(result); 
+                // ketQuaField_Layout_One.setText(result);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
         });
@@ -338,7 +343,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
             String firstRadixText = First_Radix_System.getText();
             String secondRadixText = Second_Base_System.getText();
             String resultRadixText = Result_Radix_System.getText();
-            String operation = (String) Operation.getSelectedItem();
+            int operation = Operation.getSelectedIndex();
 
             if (numOneText.equals("NHẬP SỐ THỨ NHẤT") || numTwoText.equals("NHẬP SỐ THỨ HAI")
                     || numOneText.trim().isEmpty() || numTwoText.trim().isEmpty()) {
@@ -352,8 +357,10 @@ public class BaseSystemCalculator_Layout extends JFrame {
                 int secondRadix = Integer.parseInt(secondRadixText);
                 int resultRadix = Integer.parseInt(resultRadixText);
 
-                if (firstRadix < 2 || firstRadix > 36 || secondRadix < 2 || secondRadix > 36 || resultRadix < 2 || resultRadix > 36) {
-                    JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho hệ cơ số (từ 2 đến 36).", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                if (firstRadix < 2 || firstRadix > 36 || secondRadix < 2 || secondRadix > 36 || resultRadix < 2
+                        || resultRadix > 36) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị hợp lệ cho hệ cơ số (từ 2 đến 36).",
+                            "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -361,17 +368,19 @@ public class BaseSystemCalculator_Layout extends JFrame {
                     Integer.parseInt(numOneText, firstRadix);
                     Integer.parseInt(numTwoText, secondRadix);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                System.out.println("First Radix: " + firstRadix);
-                System.out.println("Second Radix: " + secondRadix);
-                System.out.println("Result Radix: " + resultRadix);
-                System.out.println("Operation: " + operation);
-
+                String print_result = Calculator_Algorithm(numOneText, firstRadix,
+                        numTwoText, secondRadix, resultRadix,
+                        operation);
+                // System.out.println(print_result);
+                ketQuaField_Layout_Two.setText(print_result);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ trong hệ cơ số đã chọn!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
         });
@@ -390,7 +399,7 @@ public class BaseSystemCalculator_Layout extends JFrame {
         Target_Radix_System.setText("2-36");
         ketQuaField_Layout_One.setText("SỐ ĐÃ CHUYỂN");
         ketQuaField_Layout_One.setForeground(Color.GRAY);
-        
+
     }
 
     private void resetFieldsLayoutTwo() {
@@ -475,11 +484,51 @@ public class BaseSystemCalculator_Layout extends JFrame {
         // Phương thức reset
         public void reset() {
             setForeground(Color.GRAY);
-            setText(placeholder);  // Khôi phục placeholder
+            setText(placeholder); // Khôi phục placeholder
         }
 
         public String getPlaceholder() {
             return placeholder;
+        }
+    }
+
+    public static String Calculator_Algorithm(String first_number, int first_base_number,
+            String second_number, int second_base_number, int final_base_number,
+            int operation) {
+
+        int Dec_First_Number = Integer.parseInt(first_number, first_base_number);
+        String first_number_result = Integer.toString(Dec_First_Number, 10);
+        int Dec_Second_Number = Integer.parseInt(second_number, second_base_number);
+        String second_number_result = Integer.toString(Dec_Second_Number, 10);
+        String result;
+        int Addition, Subtraction, Multiplication;
+        double Division;
+        switch (operation) {
+            case 0:// +
+                Addition = Integer.parseInt(first_number_result) + Integer.parseInt(second_number_result);
+                result = Integer.toString(Addition, final_base_number);
+                return result;
+            case 1:// -
+                Subtraction = Integer.parseInt(first_number_result) - Integer.parseInt(second_number_result);
+                result = Integer.toString(Subtraction, final_base_number);
+                return result;
+            case 2:// x
+                Multiplication = Integer.parseInt(first_number_result) * Integer.parseInt(second_number_result);
+                result = Integer.toString(Multiplication, final_base_number);
+                return result;
+            case 3:// :
+                if (Dec_Second_Number == 0) {
+                    return "Không thể chia cho 0";
+                }
+                if (Dec_First_Number % Dec_Second_Number != 0) {
+                    return "Số thứ nhất không chia hết cho số thứ hai";
+                } else {
+                    int integer_division = Dec_First_Number / Dec_Second_Number;
+                    result = Integer.toString(integer_division, final_base_number);
+                    return result;
+                }
+            default:
+                return "Phép toán không hợp lệ";
         }
     }
 }
